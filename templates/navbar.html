@@ -1,0 +1,12 @@
+{% load static %}
+
+<a href="{% url 'home' %}" class="header__logo">
+    <h1>LOGO</h1>
+</a>
+
+
+<form method="GET" action="{% url 'home' %}" method="get">
+    <input name="q" type="text" name="q" placeholder="Search...">
+</form>
+
+<a href="{% url 'register' %}">Register</a>
