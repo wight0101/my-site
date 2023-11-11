@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from .models import *
+from django.contrib import messages
+from .models import Room, Topic, Message, User
 from .forms import RoomForm, NewUserForm
 from django.db.models import Q
-from django.contrib.auth import login
-from django.contrib import messages
+from django.contrib.auth import login, authenticate, logout
+
 
 
 def home(request):
@@ -22,11 +23,19 @@ def home(request):
     return render(request, 'base/home.html', context)
 
 def room(request, pk):
-    try:
-        room = Room.objects.get(pk=pk)  
-    except Room.DoesNotExist:
-        room = None
-    context = {"room": room}
+    room = Room.objects.get(id=pk)  
+    room_messages = room.message_set.all().order_by('-created')
+
+    if request.method == 'POST':
+        message = Message.objects.create(
+            user=request.user,
+            room=room,
+            content=request.POST.get('content')
+        )
+        return redirect('room', pk=room.id)
+        
+
+    context = {'room': room, 'room_messages': room_messages}
     return render(request, 'base/room.html', context)
 
 
@@ -69,16 +78,44 @@ def register(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
         if form.is_valid():
-            user = form.save()  # Збережіть створеного користувача у змінну user
-            login(request, user)  # Увійдіть користувача після реєстрації
+            user = form.save() 
+            login(request, user)  
             return redirect("home")
         else:
             messages.error(request, "Unsuccessful registration. Invalid information.")
     else:
-        form = NewUserForm()  # Ініціалізуйте форму для методу GET
+        form = NewUserForm()  
 
     return render(request, 'base/register.html', {'form': form})
 
-def login(request):
-    context = {}
-    return render(request, 'base/login_register.html', context)
+
+def loginPage(request):
+    page = 'login'
+
+    if request.user.is_authenticated:
+        return redirect('home')
+
+    if request.method == "POST":
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        try:
+            user = User.objects.get(email=email)
+        except:
+            messages.error(request, 'User does not exits')
+       
+        user  = authenticate(request, email=email, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'Username OR password does not exits')
+
+
+    context = {'page': page}
+    return render(request, "base/login.html", context)
+
+def LogoutUser(request):
+    logout(request)
+    return redirect('home')

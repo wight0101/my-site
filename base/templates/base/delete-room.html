@@ -4,10 +4,10 @@
 <div>
     <form method="POST">
         {% csrf_token %}
-        <h5>Are you sure you wnat to delete the room: {{obj}}?</h5>
+        <h5>Are you sure you want to delete the room: {{obj}}?</h5>
 
         <a href="{{request.META.HTTP_REFERER}}">Go back</a>
-        <input type="submit" value="Comfirm" />
+        <input type="submit" value="Confirm" />
     </form>
 </div>
   
