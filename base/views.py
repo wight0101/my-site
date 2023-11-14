@@ -10,6 +10,7 @@ from django.contrib.auth import login, authenticate, logout
 
 
 def home(request):
+    room_messages = Message.objects.all()
     q = request.GET.get('q') if request.GET.get('q') != None else '' 
 
     rooms = Room.objects.filter(
@@ -21,7 +22,7 @@ def home(request):
     
     topics = Topic.objects.all()
 
-    context = {'rooms': rooms, 'topics': topics}
+    context = {'rooms': rooms, 'topics': topics, 'room_messages': room_messages}
     return render(request, 'base/home.html', context)
 
 def room(request, pk):
@@ -91,19 +92,21 @@ def deleteMessage(request, pk):
         return redirect('home')
     return render(request, 'base/delete.html', {'obj': message})
 
-def register(request):
-    if request.method == "POST":
+def registerPage(request):
+    form = NewUserForm()
+
+    if request.method == 'POST':
         form = NewUserForm(request.POST)
         if form.is_valid():
-            user = form.save() 
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save() 
             login(request, user)  
             return redirect("home")
         else:
-            messages.error(request, "Unsuccessful registration. Invalid information.")
-    else:
-        form = NewUserForm()  
+            messages.error(request, "Unsuccessful registration. Invalid information.")  
 
-    return render(request, 'base/register.html', {'form': form})
+    return render(request, 'base/login.html', {'form': form})
 
 
 def loginPage(request):

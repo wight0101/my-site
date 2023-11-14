@@ -13,4 +13,4 @@ class RoomForm(forms.ModelForm):
 class NewUserForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ("username", "email", "password1", "password2")
+        fields = ("name", "username", "email", "password1", "password2")
