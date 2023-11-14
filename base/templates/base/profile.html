@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+
+<img src="{{request.user.avatar.url}}">
+<h1>{{user.username}}</h1>
+<hr>
+
+<h2>{{user.bio}}</h2>
+
+<h3>{{user.email}}</h3>
+
+
+
+{% endblock content %}

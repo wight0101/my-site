@@ -139,3 +139,8 @@ def loginPage(request):
 def LogoutUser(request):
     logout(request)
     return redirect('home')
+
+def UserProfile(request, pk):
+    user = User.objects.get(id=pk)
+    context = {'user': user}
+    return render(request, 'base/profile.html', context)

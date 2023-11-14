@@ -11,6 +11,10 @@
 
 <a href="{% url 'create-room' %}">Create Room</a>
 
+
+
+
+
 <div class="home-container">
   
     <div>
@@ -19,7 +23,7 @@
                 <div>
                     <a href="{% url 'update-room' room.id %}">Edit</a>
                     <a href="{% url 'delete-room' room.id %}">Delete</a>
-                    <span>@{{room.host.username}}</span>
+                    <a href="{% url 'profile' room.host.id %}">@{{room.host.username}}</a>
                     <h5>{{ room.id }} -- <a href="{% url 'room' pk=room.id %}">{{ room.name }}</a></h5>
                     <small>{{room.topic.name}}</small>
                 </div>
@@ -29,20 +33,15 @@
 
 
     <div>
-       <h3>Recent activity</h3>
-       <hr>
-       {% for message in room_messages %}
-            <div>
-                {% if request.user == message.user %}
-                <a href="{% url 'delete-message' message.id %}">Delete</a>
-                {% endif %}
-                <small>@{{message.user}} {{message.created | timesince}} ago </small>
-                <p>{{message.content}}</p>
-
-                <hr>
-            </div>
-            {% endfor %}
+       {% include 'base/activity_component.html' %}
     </div>
 
+
+    <div>
+        <h3>To contact with me</h3>
+        <p>phone: 3(80) 97 9414749</p>
+        <p>Email: vladpolyak12092002@gmail.com</p>
+        <p>Linkedin: </p>
+    </div>
 </div>
 {% endblock content %}
