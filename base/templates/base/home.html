@@ -16,32 +16,32 @@
 
 
 <div class="home-container">
-  
-    <div>
-        <div>
-            {% for room in rooms %}
-                <div>
-                    <a href="{% url 'update-room' room.id %}">Edit</a>
-                    <a href="{% url 'delete-room' room.id %}">Delete</a>
-                    <a href="{% url 'profile' room.host.id %}">@{{room.host.username}}</a>
-                    <h5>{{ room.id }} -- <a href="{% url 'room' pk=room.id %}">{{ room.name }}</a></h5>
-                    <small>{{room.topic.name}}</small>
-                </div>
-            {% endfor %}
-        </div>
+    <div class="rooms-section">
+        <!-- Room details -->
+        {% for room in rooms %}
+            <div class="room-frame">
+                <a href="{% url 'update-room' room.id %}">Edit</a>
+                <a href="{% url 'delete-room' room.id %}">Delete</a>
+                <a href="{% url 'profile' room.host.id %}">@{{room.host.username}}</a>
+                <h5>{{ room.id }} -- <a href="{% url 'room' pk=room.id %}">{{ room.name }}</a></h5>
+                <small>{{room.topic.name}}</small>
+            </div>
+        {% endfor %}
     </div>
 
+    <div class="sidebar">
+        <!-- Recent activity section -->
+        {% include 'base/activity_component.html' %}
 
-    <div>
-       {% include 'base/activity_component.html' %}
-    </div>
-
-
-    <div>
-        <h3>To contact with me</h3>
-        <p>phone: 3(80) 97 9414749</p>
-        <p>Email: vladpolyak12092002@gmail.com</p>
-        <p>Linkedin: </p>
+        <!-- Contact information -->
     </div>
 </div>
+
+<div class="contact-info">
+    <h3>Contact Information</h3>
+    <p>Phone: 3(80) 97 9414749</p>
+    <p>Email: vladpolyak12092002@gmail.com</p>
+    <p>LinkedIn: </p>
+</div>
+
 {% endblock content %}

@@ -1,16 +1,43 @@
 {% load static %}
 
-<a href="{% url 'home' %}" class="header__logo"><h1>LOGO</h1></a>
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark py-2 fixed-top">
+    <style>
+        .navbar-brand {
+          padding-left: 120px; /* Зсув на 2 пікселя вправо */
+        }
+      </style>
+        <div class="container-fluid">
+            <a href="{% url 'home' %}"  class="navbar-brand">
+                <img src="{% static 'images/osu_sticker.jpg' %}" alt="" width="45" height="40" class="d-inline-block align-text-top">
+      Bootstrap
+            </a>
+            <form class="d-flex" method="GET" action="{% url 'home' %}">
+              <input class="form-control me-2" name="q" type="text" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
 
-
-<form method="GET" action="{% url 'home' %}">
-    <input name="q" type="text"  placeholder="Search...">
-</form>
-{% if request.user.is_authenticated %}
-<p>Hello {{request.user.name}}</p>
-<a href="{% url 'logout' %}">Logout</a>
-{% else %}
-<a href="{% url 'login' %}">Login</a>
-{% endif %}
-
-<hr>
+        <div class="navbar-nav ml-auto">
+            {% if request.user.is_authenticated %}
+                <!-- Logged In -->
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="{{ request.user.avatar.url }}" alt="Avatar" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <!-- Dropdown menu items -->
+                        <!-- Example: -->
+                        <li><a class="dropdown-item" href="{% url 'profile' user.id %}">Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
+                </div>
+                
+            {% else %}
+                <!-- Not Logged In -->
+                <a href="{% url 'login' %}" class="nav-item nav-link">
+                    <img src="{% static 'images/avatar.jpg' %}" alt="Avatar" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
+                    <span>Login</span>
+                </a>
+            {% endif %}
+        </div>
+</nav>
