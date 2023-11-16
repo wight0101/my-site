@@ -50,12 +50,6 @@
 }
 
 
-.home-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
 .rooms-section {
     flex-basis: 65%; /* Adjust width for the room section */
 }
@@ -66,4 +60,27 @@
 
 .sidebar > * {
     margin-bottom: 20px;
+}
+
+.align-right {
+    margin-left: auto;
+}
+
+
+.home-container {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+
+/* Стиль для сховання візуального оформлення посилань */
+.hide-link-style {
+    text-decoration: none; /* Видалення підкреслення */
+    color: inherit; /* Використання коліру тексту батьківського елементу */
+}
+
+/* Стиль для розташування тексту справа */
+.room-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

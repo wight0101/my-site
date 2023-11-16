@@ -2,14 +2,16 @@
 
 {% block content %}
 
-
-<img src="{{request.user.avatar.url}}">
+<div class="container-fluid">
+    <img class="rounded mx-auto d-block" width="200" height="200" src="{{request.user.avatar.url}}">
 <h1>{{user.username}}</h1>
 <hr>
 
 <h2>{{user.bio}}</h2>
 
 <h3>{{user.email}}</h3>
+</div>
+
 
 
 
